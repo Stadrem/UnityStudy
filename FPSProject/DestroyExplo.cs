@@ -1,13 +1,13 @@
 using UnityEngine;
 
-//2ÃÊ°¡ Áö³ª¸é ³ª ÀÚ½ÅÀ» ÆÄ±«
+//2ì´ˆê°€ ì§€ë‚˜ë©´ ë‚˜ ìžì‹ ì„ íŒŒê´´
 
 public class DestroyExplo : MonoBehaviour
 {
-    //ÇöÀç½Ã°£
+    //í˜„ìž¬ì‹œê°„
     float currentTime = 0;
 
-    //ÆÄ±«½Ã°£
+    //íŒŒê´´ì‹œê°„
     float destroyTime = 2;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -19,13 +19,13 @@ public class DestroyExplo : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        //1. ÇöÀç ½Ã°£À» ´©Àû
+        //1. í˜„ìž¬ ì‹œê°„ì„ ëˆ„ì 
         currentTime += Time.deltaTime;
 
-        //2. ÇöÀç ½Ã°£ÀÌ ÆÄ±« ½Ã°£º¸´Ù Ä¿Áö¸é
+        //2. í˜„ìž¬ ì‹œê°„ì´ íŒŒê´´ ì‹œê°„ë³´ë‹¤ ì»¤ì§€ë©´
         if (currentTime > destroyTime)
         {
-            //3. ³ª¸¦ ÆÄ±«
+            //3. ë‚˜ë¥¼ íŒŒê´´
             Destroy(gameObject);
         }
 
