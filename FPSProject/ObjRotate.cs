@@ -1,17 +1,17 @@
 using UnityEngine;
 
-//¸¶¿ì½ºÀÇ ¿òÁ÷ÀÓ¿¡ µû¶ó
-//Ä«¸Ş¶ó, Player¸¦ È¸Àü
+//ë§ˆìš°ìŠ¤ì˜ ì›€ì§ì„ì— ë”°ë¼
+//ì¹´ë©”ë¼, Playerë¥¼ íšŒì „
 public class ObjRotate : MonoBehaviour
 {
-    //È¸Àü°ª(¸¶¿ì½ºÀÇ ¿òÁ÷ÀÓÀ» ´©ÀûÇÏ´Â °ª)
+    //íšŒì „ê°’(ë§ˆìš°ìŠ¤ì˜ ì›€ì§ì„ì„ ëˆ„ì í•˜ëŠ” ê°’)
     float rotX = 0;
     float rotY = 0;
 
-    //È¸Àü ½ºÇÇµå°ª
+    //íšŒì „ ìŠ¤í”¼ë“œê°’
     float rotSpeed = 150;
 
-    //È¸Àü °¡´É ¿©ºÎ
+    //íšŒì „ ê°€ëŠ¥ ì—¬ë¶€
     public bool useVertical = false;
     public bool useHorizontal = false;
 
@@ -24,11 +24,11 @@ public class ObjRotate : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        //1. ¸¶¿ì½ºÀÇ ¿òÁ÷ÀÓ °ªÀ» ¹Ş¾Æ¿À±â
+        //1. ë§ˆìš°ìŠ¤ì˜ ì›€ì§ì„ ê°’ì„ ë°›ì•„ì˜¤ê¸°
         float mx = Input.GetAxis("Mouse X");
         float my = Input.GetAxis("Mouse Y");
 
-        //2. ¸¶¿ì½ºÀÇ ¿òÁ÷ÀÓ °ªÀ» ´©Àû
+        //2. ë§ˆìš°ìŠ¤ì˜ ì›€ì§ì„ ê°’ì„ ëˆ„ì 
         if(useHorizontal == true)
         {
             rotY += mx * Time.deltaTime * rotSpeed;
@@ -39,7 +39,7 @@ public class ObjRotate : MonoBehaviour
             rotX += my * Time.deltaTime * rotSpeed;
         }
         
-        //3. ´©ÀûµÈ °ªÀ» ¹°Ã¼ÀÇ È¸Àü°ªÀ¸·Î ¼¼ÆÃ
+        //3. ëˆ„ì ëœ ê°’ì„ ë¬¼ì²´ì˜ íšŒì „ê°’ìœ¼ë¡œ ì„¸íŒ…
         transform.localEulerAngles = new Vector3(-rotX, rotY, 0);
     }
 }
