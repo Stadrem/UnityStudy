@@ -2,20 +2,20 @@ using UnityEngine;
 
 public class PlayerFire : MonoBehaviour
 {
-    //Bomb °øÀå(ÇÁ¸®ÆÕ)
+    //Bomb ê³µì¥(í”„ë¦¬íŒ¹)
     public GameObject bombFactory;
 
-    //¹ß»ç À§Ä¡
+    //ë°œì‚¬ ìœ„ì¹˜
     public GameObject firePos;
 
-    //¹ß»ç Èû
+    //ë°œì‚¬ í˜
     public float firePower = 100;
 
-    //ÆÄÆí È¿°ú °øÀå(ÇÁ¸®ÆÕ)
+    //íŒŒí¸ íš¨ê³¼ ê³µì¥(í”„ë¦¬íŒ¹)
     public GameObject bulletImpactFactory;
 
-    float myTime = 0f; // ÃÊ±âÈ­
-    float nextFire = 0.25f; // 0.1ÃÊ µô·¹ÀÌ
+    float myTime = 0f; // ì´ˆê¸°í™”
+    float nextFire = 0.25f; // 0.1ì´ˆ ë”œë ˆì´
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -26,58 +26,58 @@ public class PlayerFire : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        //1. ¸¶¿ì½º ¿À¸¥ÂÊ ¹öÆ°À» ´©¸£¸é
+        //1. ë§ˆìš°ìŠ¤ ì˜¤ë¥¸ìª½ ë²„íŠ¼ì„ ëˆ„ë¥´ë©´
         if (Input.GetButtonDown("Fire2"))
         {
-            //2. Bomb °øÀå¿¡¼­ BombÀ» ÇÏ³ª »ı¼º
+            //2. Bomb ê³µì¥ì—ì„œ Bombì„ í•˜ë‚˜ ìƒì„±
             GameObject bomb = Instantiate(bombFactory);
 
-            //3. »ı¼ºµÈ BombÀÇ À§Ä¡¸¦ firePos¿¡ À§Ä¡
+            //3. ìƒì„±ëœ Bombì˜ ìœ„ì¹˜ë¥¼ firePosì— ìœ„ì¹˜
             bomb.transform.position = firePos.transform.position;
 
-            //4. »ı¼ºµÈ BombÀÌ Ä«¸Ş¶óÀÇ ¾Õ¹æÇâÀ¸·Î ³ª¾Æ°¥ ¼ö ÀÖ°Ô ÈûÀ» ÁØ´Ù.
+            //4. ìƒì„±ëœ Bombì´ ì¹´ë©”ë¼ì˜ ì•ë°©í–¥ìœ¼ë¡œ ë‚˜ì•„ê°ˆ ìˆ˜ ìˆê²Œ í˜ì„ ì¤€ë‹¤.
             Rigidbody rb = bomb.GetComponent<Rigidbody>();
             rb.AddForce(Camera.main.transform.forward * firePower);
         }
 
-        myTime += Time.deltaTime; // ½Ã°£ ¾÷µ¥ÀÌÆ®
+        myTime += Time.deltaTime; // ì‹œê°„ ì—…ë°ì´íŠ¸
 
-        //1. ¸¶¿ì½º ¿ŞÂÊ ¹öÆ°À» ´©¸£¸é
+        //1. ë§ˆìš°ìŠ¤ ì™¼ìª½ ë²„íŠ¼ì„ ëˆ„ë¥´ë©´
         if (Input.GetButton("Fire1") && myTime > nextFire)
         {
-            // myTimeÀ» ÃÊ±âÈ­ÇÏ¿© µô·¹ÀÌ¸¦ Àç¼³Á¤
+            // myTimeì„ ì´ˆê¸°í™”í•˜ì—¬ ë”œë ˆì´ë¥¼ ì¬ì„¤ì •
             myTime = 0f;
 
-            //2. Ä«¸Ş¶ó À§Ä¡, Ä«¸Ş¶ó ¾Õ¹æÇâ Ray¸¦ ¸¸µë.
+            //2. ì¹´ë©”ë¼ ìœ„ì¹˜, ì¹´ë©”ë¼ ì•ë°©í–¥ Rayë¥¼ ë§Œë“¬.
             Ray ray = new Ray(Camera.main.transform.position, Camera.main.transform.forward);
 
-            //3. Ray¸¦ ¹ß»çÇØ¼­ ¾îµò°¡¿¡ ¸Â¾Ò´Ù¸é
+            //3. Rayë¥¼ ë°œì‚¬í•´ì„œ ì–´ë”˜ê°€ì— ë§ì•˜ë‹¤ë©´
             RaycastHit hitInfo = new RaycastHit();
 
             if(Physics.Raycast(ray, out hitInfo))
             {
-                //4. ¸ÂÀº À§Ä¡¿¡ ÆÄÆíÈ¿°ú¸¦ º¸¿©ÁØ´Ù.
-                //Debug.Log("¸ÂÀº ¿ÀºêÁ§Æ® : " + hitInfo.transform.name);
-                //4-1 ÆÄÆí È¿°ú °øÀå¿¡¼­ ÆÄÆí È¿°ú ¸¸µé±â
+                //4. ë§ì€ ìœ„ì¹˜ì— íŒŒí¸íš¨ê³¼ë¥¼ ë³´ì—¬ì¤€ë‹¤.
+                //Debug.Log("ë§ì€ ì˜¤ë¸Œì íŠ¸ : " + hitInfo.transform.name);
+                //4-1 íŒŒí¸ íš¨ê³¼ ê³µì¥ì—ì„œ íŒŒí¸ íš¨ê³¼ ë§Œë“¤ê¸°
                 GameObject bulletImpact = Instantiate(bulletImpactFactory);
 
-                //4-2 ¸¸µç ÆÄÆí È¿°ú¸¦ ¸ÂÀº À§Ä¡¿¡ »ı¼º
+                //4-2 ë§Œë“  íŒŒí¸ íš¨ê³¼ë¥¼ ë§ì€ ìœ„ì¹˜ì— ìƒì„±
                 bulletImpact.transform.position = hitInfo.point;
 
-                //4-3 ¸¸µç ÆÄÆí È¿°ú¸¦ ¾Õ ¹æÇâÀ» ¸ÂÀº À§Ä¡ÀÇ Normal °ªÀ¸·Î ¼ÂÆÃ
+                //4-3 ë§Œë“  íŒŒí¸ íš¨ê³¼ë¥¼ ì• ë°©í–¥ì„ ë§ì€ ìœ„ì¹˜ì˜ Normal ê°’ìœ¼ë¡œ ì…‹íŒ…
                 bulletImpact.transform.forward = hitInfo.normal;
 
-                //4-4 ¸¸µç ÆÄÆí È¿°ú¸¦ 2ÃÊ µÚ¿¡ ÆÄ±«
+                //4-4 ë§Œë“  íŒŒí¸ íš¨ê³¼ë¥¼ 2ì´ˆ ë’¤ì— íŒŒê´´
                 Destroy(bulletImpact, 1);
 
-                //5. ¸ÂÀº ´ë»óÀÌ Enemy
+                //5. ë§ì€ ëŒ€ìƒì´ Enemy
                 if (hitInfo.transform.gameObject.name.Contains("Enemy"))
                 {
-                    //6. Enemy¿¡°Ô Damage °¡ÇÏ±â
-                    //6-1. Enemy¿¡¼­ Enemy ÄÄÆ÷³ÍÆ®¸¦ °¡Á®¿À±â
+                    //6. Enemyì—ê²Œ Damage ê°€í•˜ê¸°
+                    //6-1. Enemyì—ì„œ Enemy ì»´í¬ë„ŒíŠ¸ë¥¼ ê°€ì ¸ì˜¤ê¸°
                     Enemy enemy = hitInfo.transform.GetComponent<Enemy>();
 
-                    //6-2. °¡Á®¿Â ÄÄÆ÷³ÍÆ®¿¡¼­ OnDamaged ÇÔ¼ö¸¦ È£Ãâ
+                    //6-2. ê°€ì ¸ì˜¨ ì»´í¬ë„ŒíŠ¸ì—ì„œ OnDamaged í•¨ìˆ˜ë¥¼ í˜¸ì¶œ
                     enemy.OnDamaged();
                 }
             }
