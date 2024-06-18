@@ -11,7 +11,7 @@ public class Billboard : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        //ÀÚ½ÅÀÇ ¾Õ ¹æÇâÀ» Ä«¸Ş¶óÀÇ ¾Õ¹æÇâ°ú °°°Ô ÇÑ´Ù.
+        //ìì‹ ì˜ ì• ë°©í–¥ì„ ì¹´ë©”ë¼ì˜ ì•ë°©í–¥ê³¼ ê°™ê²Œ í•œë‹¤.
         transform.forward = Camera.main.transform.forward;
     }
 }
