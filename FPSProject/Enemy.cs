@@ -6,7 +6,7 @@ using UnityEngine.AI;
 
 public class Enemy : MonoBehaviour
 {
-    //¿­°ÅÇü
+    //ì—´ê±°í˜•
     public enum EnemyState
     {
         Idle,
@@ -18,115 +18,115 @@ public class Enemy : MonoBehaviour
         Patrol
     }
 
-    //ÇöÀç »óÅÂ
+    //í˜„ì¬ ìƒíƒœ
     public EnemyState state;
 
-    //ÇÃ·¹ÀÌ¾î
+    //í”Œë ˆì´ì–´
     Transform player;
 
-    //ÀÎÁö ¹üÀ§
+    //ì¸ì§€ ë²”ìœ„
     public float findDistance = 8;
 
-    //°ø°İ ¹üÀ§
+    //ê³µê²© ë²”ìœ„
     public float attackDistance = 2;
 
-    //°ø°İ µô·¹ÀÌ ½Ã°£
+    //ê³µê²© ë”œë ˆì´ ì‹œê°„
     public float attackDelayTime = 2;
 
-    //ÇöÀç ½Ã°£
+    //í˜„ì¬ ì‹œê°„
     float currentTime = 0;
 
-    //ÀÌµ¿ ¼Ó·Â
+    //ì´ë™ ì†ë ¥
     float moveSpeed = 3;
 
     //HP UI
     public Slider hpUI;
 
-    //ÇöÀç HP
+    //í˜„ì¬ HP
     float currentHP = 0;
 
-    //ÃÖ´ë HP
+    //ìµœëŒ€ HP
     float maxHP = 3;
 
-    //ÇÇ°İ ½Ã°£
+    //í”¼ê²© ì‹œê°„
     float damagedDelayTime = 2;
 
-    //Á×´Â ½Ã°£
+    //ì£½ëŠ” ì‹œê°„
     float dieDelayTime = 2;
 
-    //³×ÀÌ°ÔÀÌ¼Ç ¿¡ÀÌÀüÆ® º¯¼ö
+    //ë„¤ì´ê²Œì´ì…˜ ì—ì´ì „íŠ¸ ë³€ìˆ˜
     NavMeshAgent navi;
 
-    //°æ·Î¸¦ ³ªÅ¸³¾ ¶óÀÎ º¯¼ö
+    //ê²½ë¡œë¥¼ ë‚˜íƒ€ë‚¼ ë¼ì¸ ë³€ìˆ˜
     LineRenderer li;
 
-    //ÃÊ±â À§Ä¡
+    //ì´ˆê¸° ìœ„ì¹˜
     Vector3 originPos;
 
-    //ÀÌµ¿ ¹üÀ§
+    //ì´ë™ ë²”ìœ„
     float moveDistance = 20;
 
-    //±â´Ù¸®´Â ½Ã°£
+    //ê¸°ë‹¤ë¦¬ëŠ” ì‹œê°„
     float idleDealyTime = 2;
 
-    //Animator ÄÄÆ÷³ÍÆ®
+    //Animator ì»´í¬ë„ŒíŠ¸
     public Animator anim;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        //Player TransformÀ» Ã£±â
+        //Player Transformì„ ì°¾ê¸°
         GameObject go = GameObject.Find("Player");
         player = go.transform;
 
-        //ÃÊ±â À§Ä¡ ¼³Á¤
+        //ì´ˆê¸° ìœ„ì¹˜ ì„¤ì •
         originPos = transform.position;
 
-        //ÇöÀç HP¸¦ ÃÖ´ë HP·Î ¼ÂÆÃ
+        //í˜„ì¬ HPë¥¼ ìµœëŒ€ HPë¡œ ì…‹íŒ…
         currentHP = maxHP;
 
-        //³×ºñ¸Ş½Ã ¿¡ÀÌÀüÆ® ÄÄÆ÷³ÍÆ® ºÒ·¯¿À±â
+        //ë„¤ë¹„ë©”ì‹œ ì—ì´ì „íŠ¸ ì»´í¬ë„ŒíŠ¸ ë¶ˆëŸ¬ì˜¤ê¸°
         navi = GetComponent<NavMeshAgent>();
 
-        //¶óÀÎ·»´õ·¯ ÄÄÆ÷³ÍÆ® ºÒ·¯¿À±â
+        //ë¼ì¸ë Œë”ëŸ¬ ì»´í¬ë„ŒíŠ¸ ë¶ˆëŸ¬ì˜¤ê¸°
         li = GetComponent<LineRenderer>();
     }
 
     // Update is called once per frame
     void Update()
     {
-        //0. ´ë±â »óÅÂ
+        //0. ëŒ€ê¸° ìƒíƒœ
         if (state == EnemyState.Idle)
         {
-            //´ë±â »óÅÂ ÇÒ ÀÏ
+            //ëŒ€ê¸° ìƒíƒœ í•  ì¼
             UpdateIdle();
         }
 
-        //1. ÀÌµ¿ »óÅÂ
+        //1. ì´ë™ ìƒíƒœ
         else if (state == EnemyState.Move)
         {
-            //ÀÌµ¿ »óÅÂ ÇÒ ÀÏ
+            //ì´ë™ ìƒíƒœ í•  ì¼
             UpdateMove();
         }
 
-        //2. °ø°İ »óÅÂ
+        //2. ê³µê²© ìƒíƒœ
         else if (state == EnemyState.Attack)
         {
-            //°ø°İ »óÅÂ ÇÒ ÀÏ
+            //ê³µê²© ìƒíƒœ í•  ì¼
             UpdateAttack();
         }
 
-        //3. ÇÇ°İ »óÅÂ
+        //3. í”¼ê²© ìƒíƒœ
         else if (state == EnemyState.Damaged)
         {
-            //ÇÇ°İ »óÅÂ ÇÒ ÀÏ
+            //í”¼ê²© ìƒíƒœ í•  ì¼
             //UpdateDamaged();
         }
 
-        //4. Á×À½ »óÅÂ
+        //4. ì£½ìŒ ìƒíƒœ
         else if (state == EnemyState.Die)
         {
-            //Á×À½ »óÅÂ ÇÒ ÀÏ
+            //ì£½ìŒ ìƒíƒœ í•  ì¼
             UpdateDie();
         }
         else if (state == EnemyState.Return)
@@ -139,24 +139,24 @@ public class Enemy : MonoBehaviour
         }
     }
 
-    //»óÅÂ¸¦ º¯°æÇÒ ¶§ ÇÑ¹ø ½ÇÇàµÇ´Â ÇÔ¼ö
+    //ìƒíƒœë¥¼ ë³€ê²½í•  ë•Œ í•œë²ˆ ì‹¤í–‰ë˜ëŠ” í•¨ìˆ˜
     void ChangeState(EnemyState s)
     {
-        //ÇöÀç »óÅÂ¸¦ s °ªÀ¸·Î ¼¼ÆÃ
+        //í˜„ì¬ ìƒíƒœë¥¼ s ê°’ìœ¼ë¡œ ì„¸íŒ…
         state = s;
 
-        //°¢ »óÅÂ¿¡ µû¸¥ ÃÊ±âÈ­¸¦ ÇØÁÜ
+        //ê° ìƒíƒœì— ë”°ë¥¸ ì´ˆê¸°í™”ë¥¼ í•´ì¤Œ
         if (state == EnemyState.Idle)
         {
-            //³×ºñ ÃÊ±âÈ­
+            //ë„¤ë¹„ ì´ˆê¸°í™”
             ResetNavi();
 
-            //Idle ¾Ö´Ï¸ŞÀÌ¼Ç ½ÇÇà
+            //Idle ì• ë‹ˆë©”ì´ì…˜ ì‹¤í–‰
             anim.SetTrigger("Idle");
         }
         else if(state == EnemyState.Move)
         {
-            //Move ¾Ö´Ï¸ŞÀÌ¼Ç ½ÇÇà
+            //Move ì• ë‹ˆë©”ì´ì…˜ ì‹¤í–‰
             anim.SetTrigger("Move");
         }
         else if(state==EnemyState.Return)
@@ -165,74 +165,74 @@ public class Enemy : MonoBehaviour
         }
         else if (state == EnemyState.Attack)
         {
-            //³×ºñ°ÔÀÌ¼Ç ÃÊ±âÈ­
+            //ë„¤ë¹„ê²Œì´ì…˜ ì´ˆê¸°í™”
             ResetNavi();
 
-            //ÇöÀç½Ã°£À» °ø°İµô·¹ÀÌ ½Ã°£À¸·Î ¼¼ÆÃ
+            //í˜„ì¬ì‹œê°„ì„ ê³µê²©ë”œë ˆì´ ì‹œê°„ìœ¼ë¡œ ì„¸íŒ…
             currentTime = attackDelayTime;
         }
         else if (state == EnemyState.Damaged)
         {
-            //Damaged ¾Ö´Ï¸ŞÀÌ¼ÇÀ» ½ÇÇà
+            //Damaged ì• ë‹ˆë©”ì´ì…˜ì„ ì‹¤í–‰
             anim.SetTrigger("Damaged");
 
-            //DamagedProcess ÄÚ·çÆ¾À» ½ÇÇà
+            //DamagedProcess ì½”ë£¨í‹´ì„ ì‹¤í–‰
             StartCoroutine(DamagedProcess());
         }
         else if (state == EnemyState.Die)
         {
-            //Die ¾Ö´Ï¸ŞÀÌ¼Ç ½ÇÇà
+            //Die ì• ë‹ˆë©”ì´ì…˜ ì‹¤í–‰
             anim.SetTrigger("Die");
         }
         else if (state == EnemyState.Patrol)
         {
-            //ÇöÀç½Ã°£À» ÃÊ±âÈ­
+            //í˜„ì¬ì‹œê°„ì„ ì´ˆê¸°í™”
             currentTime = 0;
 
-            //·£´ıÇÑ X, Z°ªÀ» ±¸ÇÑ´Ù. (-20, 20)
+            //ëœë¤í•œ X, Zê°’ì„ êµ¬í•œë‹¤. (-20, 20)
             float randX = Random.Range(-20, 20);
             float randZ = Random.Range(-20, 20);
 
-            //·£´ıÇÑ À§Ä¡¸¦ ±¸ÇÔ
+            //ëœë¤í•œ ìœ„ì¹˜ë¥¼ êµ¬í•¨
             Vector3 pos = originPos;
             pos.x += randX;
             pos.y += randZ;
 
-            //¸ñÀûÁö¸¦ ÇØ´ç À§Ä¡·Î ¼³Á¤
+            //ëª©ì ì§€ë¥¼ í•´ë‹¹ ìœ„ì¹˜ë¡œ ì„¤ì •
             setDestination(pos);
 
-            //Move ¾Ö´Ï¸ŞÀÌ¼Ç ½ÇÇà
+            //Move ì• ë‹ˆë©”ì´ì…˜ ì‹¤í–‰
             anim.SetTrigger("Move");
         }
     }
     
     void UpdatePatrol()
     {
-        //¸¸¾à¿¡ ¸ñÀûÁö¿Í °¡±î¿öÁö¸é
+        //ë§Œì•½ì— ëª©ì ì§€ì™€ ê°€ê¹Œì›Œì§€ë©´
         if(navi.remainingDistance < 0.1f)
         {
-            //»óÅÂ¸¦ Idle·Î º¯°æ
+            //ìƒíƒœë¥¼ Idleë¡œ ë³€ê²½
             ChangeState(EnemyState.Idle);
         }
     }
 
     void UpdateIdle()
     {
-        //1. ÇÃ·¹ÀÌ¾î¿ÍÀÇ °Å¸®
+        //1. í”Œë ˆì´ì–´ì™€ì˜ ê±°ë¦¬
         float dist = Vector3.Distance(transform.position, player.position);
 
-        //2. ¸¸¾à¿¡ ÇÃ·¹ÀÌ¾î¿ÍÀÇ °Å¸®°¡ ÀÎÁö¹üÀ§ ¾È¿¡ µé¾î¿Ô´Ù¸é
+        //2. ë§Œì•½ì— í”Œë ˆì´ì–´ì™€ì˜ ê±°ë¦¬ê°€ ì¸ì§€ë²”ìœ„ ì•ˆì— ë“¤ì–´ì™”ë‹¤ë©´
         if (dist < findDistance)
         {
-            //3. »óÅÂ¸¦ Move·Î ÀüÈ¯
+            //3. ìƒíƒœë¥¼ Moveë¡œ ì „í™˜
             ChangeState(EnemyState.Move);
         }
         else
         {
-            //½Ã°£À» Èå¸£°Ô ÇÔ
+            //ì‹œê°„ì„ íë¥´ê²Œ í•¨
             currentTime += Time.deltaTime;
 
-            //¸¸¾à ÇöÀç ½Ã°£ÀÌ Idle ½Ã°£º¸´Ù Ä¿Áö¸é 
+            //ë§Œì•½ í˜„ì¬ ì‹œê°„ì´ Idle ì‹œê°„ë³´ë‹¤ ì»¤ì§€ë©´ 
             if(currentTime > idleDealyTime)
             {
                 ChangeState(EnemyState.Patrol);
@@ -242,40 +242,40 @@ public class Enemy : MonoBehaviour
 
     void UpdateMove()
     {
-        //ÃÊ±â À§Ä¡¿Í °Å¸®¸¦ ±¸ÇÔ
+        //ì´ˆê¸° ìœ„ì¹˜ì™€ ê±°ë¦¬ë¥¼ êµ¬í•¨
         float distByOrigin = Vector3.Distance(transform.position, originPos);
 
-        //±× °Å¸®°¡ ÀÌµ¿ ¹İ°æº¸´Ù Ä¿Áö¸é
+        //ê·¸ ê±°ë¦¬ê°€ ì´ë™ ë°˜ê²½ë³´ë‹¤ ì»¤ì§€ë©´
         if(distByOrigin > moveDistance)
         { 
-            //»óÅÂ¸¦ ReturnÀ¸·Î ÀüÈ¯
+            //ìƒíƒœë¥¼ Returnìœ¼ë¡œ ì „í™˜
             ChangeState(EnemyState.Return);
 
-            print("»óÅÂÀüÈ¯ : Move -> Return");
+            print("ìƒíƒœì „í™˜ : Move -> Return");
 
-            //ÇÔ¼ö Áß´Ü
+            //í•¨ìˆ˜ ì¤‘ë‹¨
             return;
         }
         
-        //ÇÃ·¹ÀÌ¾î¿ÍÀÇ °Å¸®¸¦ ±¸ÇÔ
+        //í”Œë ˆì´ì–´ì™€ì˜ ê±°ë¦¬ë¥¼ êµ¬í•¨
         float dist = Vector3.Distance(transform.position, player.position);
 
-        //¸¸¾à¿¡ °Å¸®°¡ °ø°İ ¹üÀ§º¸´Ù Å©´Ù¸é
+        //ë§Œì•½ì— ê±°ë¦¬ê°€ ê³µê²© ë²”ìœ„ë³´ë‹¤ í¬ë‹¤ë©´
         if(dist > attackDistance)
         {
             /*
-            //1. ÇÃ·¹ÀÌ¾î¸¦ ÇâÇÏ´Â ¹æÇâÀ» ±¸ÇÔ
+            //1. í”Œë ˆì´ì–´ë¥¼ í–¥í•˜ëŠ” ë°©í–¥ì„ êµ¬í•¨
             Vector3 dir = player.position - transform.position;
             dir.Normalize();
 
-            //2. ±× ¹æÇâÀ¸·Î ¿òÁ÷ÀÓ
+            //2. ê·¸ ë°©í–¥ìœ¼ë¡œ ì›€ì§ì„
             //p = p0 + vt
             transform.position = transform.position + dir * moveSpeed * Time.deltaTime;
             */
 
             setDestination(player.position);
         }
-        //±×·¸Áö ¾ÊÀ¸¸é
+        //ê·¸ë ‡ì§€ ì•Šìœ¼ë©´
         else
         {
             ChangeState(EnemyState.Attack);
@@ -284,126 +284,126 @@ public class Enemy : MonoBehaviour
 
     public void OnDamaged()
     {
-        //¸¸¾à ÇöÀç »óÅÂ°¡ die¶ó¸é ÇÔ¼ö Å»Ãâ
+        //ë§Œì•½ í˜„ì¬ ìƒíƒœê°€ dieë¼ë©´ í•¨ìˆ˜ íƒˆì¶œ
         if (state == EnemyState.Die)
         {
             return;
         }
 
-        //³×ºñ°ÔÀÌ¼Ç ÃÊ±âÈ­
+        //ë„¤ë¹„ê²Œì´ì…˜ ì´ˆê¸°í™”
         ResetNavi();
 
-        //¸ğµç ÄÚ·çÆ¾ Á¾·á
+        //ëª¨ë“  ì½”ë£¨í‹´ ì¢…ë£Œ
         StopAllCoroutines();
 
-        //1. ÀÚ½ÅÀÇ HP¸¦ ±ï´Â´Ù.
+        //1. ìì‹ ì˜ HPë¥¼ ê¹ëŠ”ë‹¤.
         currentHP--;
 
-        //HP ¹Ù¸¦ °»½Å
+        //HP ë°”ë¥¼ ê°±ì‹ 
         float ratio = currentHP / maxHP;
         hpUI.value = ratio;
 
-        //2. ¸¸¾à¿¡ HP°¡ 0º¸´Ù Å©´Ù¸é
+        //2. ë§Œì•½ì— HPê°€ 0ë³´ë‹¤ í¬ë‹¤ë©´
         if (currentHP > 0)
         {
-            //3. »óÅÂ¸¦ Damaged »óÅÂ·Î ÀüÈ¯
+            //3. ìƒíƒœë¥¼ Damaged ìƒíƒœë¡œ ì „í™˜
             ChangeState(EnemyState.Damaged);
         }
-        //4. ±×·¸Áö ¾ÊÀ¸¸é  (HP <= 0)
+        //4. ê·¸ë ‡ì§€ ì•Šìœ¼ë©´  (HP <= 0)
         else
         {
-            //5. Die »óÅÂ·Î ÀüÈ¯
+            //5. Die ìƒíƒœë¡œ ì „í™˜
             ChangeState(EnemyState.Die);
         }
     }
 
     void UpdateAttack()
     {
-        //ÇÃ·¹ÀÌ¾î¿Í °Å¸®¸¦ ±¸ÇÔ
+        //í”Œë ˆì´ì–´ì™€ ê±°ë¦¬ë¥¼ êµ¬í•¨
         float dist = Vector3.Distance(transform.position, player.position);
 
-        //¸¸¾à¿¡ °ø°İ ¹üÀ§¿¡ µé¾î¿Ô´Ù¸é
+        //ë§Œì•½ì— ê³µê²© ë²”ìœ„ì— ë“¤ì–´ì™”ë‹¤ë©´
         if (dist < attackDistance)
         {
-            //ÇöÀç ½Ã°£À» ´©Àû
+            //í˜„ì¬ ì‹œê°„ì„ ëˆ„ì 
             currentTime += Time.deltaTime;
 
-            //°ø°İ µô·¹ÀÌ ½Ã°£ÀÌ Áö³ª¸é
+            //ê³µê²© ë”œë ˆì´ ì‹œê°„ì´ ì§€ë‚˜ë©´
             if (currentTime > attackDelayTime)
             {
-                //ÇÃ·¹ÀÌ¾î¸¦ °ø°İ
-                //print("ÇÃ·¹ÀÌ¾î¸¦ °ø°İ.");
-                //PlayerMove ÄÄÆ÷³ÍÆ® ºÒ·¯¿À±â
+                //í”Œë ˆì´ì–´ë¥¼ ê³µê²©
+                //print("í”Œë ˆì´ì–´ë¥¼ ê³µê²©.");
+                //PlayerMove ì»´í¬ë„ŒíŠ¸ ë¶ˆëŸ¬ì˜¤ê¸°
                 PlayerMove pm = player.GetComponent<PlayerMove>();
 
-                //°¡Á®¿Â ÄÄÆ÷³ÍÆ®ÀÇ OnDamaged ÇÔ¼ö ½ÇÇà
+                //ê°€ì ¸ì˜¨ ì»´í¬ë„ŒíŠ¸ì˜ OnDamaged í•¨ìˆ˜ ì‹¤í–‰
                 pm.OnDamaged();
 
-                //ÇöÀç ½Ã°£À» ÃÊ±âÈ­
+                //í˜„ì¬ ì‹œê°„ì„ ì´ˆê¸°í™”
                 currentTime = 0;
 
-                //Attack ¾Ö´Ï¸ŞÀÌ¼Ç ½ÇÇà
+                //Attack ì• ë‹ˆë©”ì´ì…˜ ì‹¤í–‰
                 anim.SetTrigger("Attack");
             }
         }
-        //±×·¸Áö ¾ÊÀ¸¸é
+        //ê·¸ë ‡ì§€ ì•Šìœ¼ë©´
         else
         {
-            //»óÅÂ¸¦ Move·Î ÀüÈ¯
+            //ìƒíƒœë¥¼ Moveë¡œ ì „í™˜
             ChangeState(EnemyState.Move);
         }
     }
 
     void UpdateDamaged()
     {
-        //1. ½Ã°£À» Èå¸£°Ô ÇÑ´Ù.
+        //1. ì‹œê°„ì„ íë¥´ê²Œ í•œë‹¤.
         currentTime += Time.deltaTime;
 
-        //2. ÇÇ°İ ½Ã°£ÀÌ Áö³ª¸é
+        //2. í”¼ê²© ì‹œê°„ì´ ì§€ë‚˜ë©´
         if(currentTime > damagedDelayTime)
         {
-            //3. Idle »óÅÂ·Î ÀüÈ¯
+            //3. Idle ìƒíƒœë¡œ ì „í™˜
             state = EnemyState.Idle;
-            print("»óÅÂ ÀüÈ¯ : Damaged -> Idle");
+            print("ìƒíƒœ ì „í™˜ : Damaged -> Idle");
 
-            //¸ğµç ÄÚ·çÆ¾ Á¾·á
+            //ëª¨ë“  ì½”ë£¨í‹´ ì¢…ë£Œ
             StopAllCoroutines();
 
-            //4. currentTime ÃÊ±âÈ­
+            //4. currentTime ì´ˆê¸°í™”
             currentTime = 0;
         }
     }
 
     IEnumerator DamagedProcess()
     {
-        //1 damagedDelayTimeµ¿¾È ±â´Ù¸²
+        //1 damagedDelayTimeë™ì•ˆ ê¸°ë‹¤ë¦¼
         yield return new WaitForSeconds(damagedDelayTime);
 
-        //2. Idel »óÅÂ·Î ÀüÈ¯
+        //2. Idel ìƒíƒœë¡œ ì „í™˜
         ChangeState(EnemyState.Idle);
     }
 
     void UpdateDie()
     {
-        //1. ½Ã°£À» Èå¸£°Ô ÇÔ
+        //1. ì‹œê°„ì„ íë¥´ê²Œ í•¨
         currentTime += Time.deltaTime;
 
-        //2. ¸¸¾à¿¡ ÇöÀç ½Ã°£ÀÌ Die ½Ã°£º¸´Ù Ä¿Áö¸é
+        //2. ë§Œì•½ì— í˜„ì¬ ì‹œê°„ì´ Die ì‹œê°„ë³´ë‹¤ ì»¤ì§€ë©´
         if(currentTime > dieDelayTime)
         {
-            //³×ºñ°ÔÀÌ¼Ç ½Ã½ºÅÛ ºñÈ°¼ºÈ­
+            //ë„¤ë¹„ê²Œì´ì…˜ ì‹œìŠ¤í…œ ë¹„í™œì„±í™”
             navi.enabled = false;
 
-            //Ä¸½¶ Äİ¶óÀÌ´õ ºñÈ°¼ºÈ­
+            //ìº¡ìŠ ì½œë¼ì´ë” ë¹„í™œì„±í™”
             GetComponent<CapsuleCollider>().enabled = false;
 
-            //3. ¾Æ·¡·Î ¿òÁ÷ÀÌ°Ô ÇÑ´Ù.
+            //3. ì•„ë˜ë¡œ ì›€ì§ì´ê²Œ í•œë‹¤.
             transform.position += Vector3.down * moveSpeed * Time.deltaTime;
 
-            //4. ¸¸¾à¿¡ ³ªÀÇ À§Ä¡°ª(y)dl -2º¸´Ù ÀÛ¾ÆÁö¸é
+            //4. ë§Œì•½ì— ë‚˜ì˜ ìœ„ì¹˜ê°’(y)dl -2ë³´ë‹¤ ì‘ì•„ì§€ë©´
             if(transform.position.y < -2)
             {
-                //5. ÆÄ±«
+                //5. íŒŒê´´
                 Destroy(gameObject);
             }
         }
@@ -411,51 +411,51 @@ public class Enemy : MonoBehaviour
 
     void UpdateReturn()
     {
-        //1. ÃÊ±â À§Ä¡ - ³ªÀÇ À§Ä¡¸¦ ±¸ÇÔ
+        //1. ì´ˆê¸° ìœ„ì¹˜ - ë‚˜ì˜ ìœ„ì¹˜ë¥¼ êµ¬í•¨
         float dist = Vector3.Distance(originPos, transform.position);
 
-        //2. ¸¸¾à¿¡ ±×°Å¸®°¡ 0.5º¸´Ù ÀÛ´Ù¸é
+        //2. ë§Œì•½ì— ê·¸ê±°ë¦¬ê°€ 0.5ë³´ë‹¤ ì‘ë‹¤ë©´
         if(dist < 1.0f)
         {
             ChangeState(EnemyState.Idle);
         }
-        //4. ±×·¸Áö ¾ÊÀ¸¸é
+        //4. ê·¸ë ‡ì§€ ì•Šìœ¼ë©´
         else
         {
             /*
-            //5. ÃÊ±â À§Ä¡·Î ÀÌµ¿
-            //5-1 ÃÊ±âÀ§Ä¡·Î ÇâÇÏ´Â ¹æÇâ ±¸ÇÔ
+            //5. ì´ˆê¸° ìœ„ì¹˜ë¡œ ì´ë™
+            //5-1 ì´ˆê¸°ìœ„ì¹˜ë¡œ í–¥í•˜ëŠ” ë°©í–¥ êµ¬í•¨
             Vector3 dir = originPos - transform.position;
             dir.Normalize();
 
-            //5-2 ¹æÇâÀ¸·Î °è¼Ó ÀÌµ¿
+            //5-2 ë°©í–¥ìœ¼ë¡œ ê³„ì† ì´ë™
             transform.position = transform.position + dir * moveSpeed * Time.deltaTime;
             */
 
-            //³×ºñ°ÔÀÌ¼Ç¿¡°Ô ¸ñÀûÁö¸¦ Ã³À½ À§Ä¡·Î ¼¼ÆÃ
+            //ë„¤ë¹„ê²Œì´ì…˜ì—ê²Œ ëª©ì ì§€ë¥¼ ì²˜ìŒ ìœ„ì¹˜ë¡œ ì„¸íŒ…
             setDestination(originPos);
         }
     }
 
     void setDestination(Vector3 pos)
     {
-        //³×ºñ ¸ñÀûÁö ¼³Á¤
+        //ë„¤ë¹„ ëª©ì ì§€ ì„¤ì •
         navi.destination = pos;
 
-        //¸ñÀûÁö¸¦ ÇâÇÏ´Â °æ·Î¸¦ liÀ» ÀÌ¿ë
+        //ëª©ì ì§€ë¥¼ í–¥í•˜ëŠ” ê²½ë¡œë¥¼ liì„ ì´ìš©
         li.positionCount = navi.path.corners.Length;
         li.SetPositions(navi.path.corners);
     }
 
     void ResetNavi()
     {
-        //ÀÌµ¿À» ¸ØÃã
+        //ì´ë™ì„ ë©ˆì¶¤
         navi.isStopped = true;
 
-        //±æÃ£±â ÃÊ±âÈ­
+        //ê¸¸ì°¾ê¸° ì´ˆê¸°í™”
         navi.ResetPath();
 
-        //¶óÀÎÀ» ÃÊ±âÈ­
+        //ë¼ì¸ì„ ì´ˆê¸°í™”
         li.positionCount = 0;
     }
 }
