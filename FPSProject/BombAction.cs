@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class BombAction : MonoBehaviour
 {
-    //Æø¹ß È¿°ú ÇÁ¸®ÆÕ
+    //í­ë°œ íš¨ê³¼ í”„ë¦¬íŒ¹
     public GameObject explosionFactory;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -19,13 +19,13 @@ public class BombAction : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
-        //Æø¹ßÈ¿°ú °øÀå¿¡¼­ Æø¹ßÈ¿°ú¸¦ »ı¼º
+        //í­ë°œíš¨ê³¼ ê³µì¥ì—ì„œ í­ë°œíš¨ê³¼ë¥¼ ìƒì„±
         GameObject explo = Instantiate(explosionFactory);
 
-        //»ı¼ºµÈ Æø¹ßÈ¿°ú¸¦ ³ªÀÇ À§Ä¡¿¡ ¹èÄ¡
+        //ìƒì„±ëœ í­ë°œíš¨ê³¼ë¥¼ ë‚˜ì˜ ìœ„ì¹˜ì— ë°°ì¹˜
         explo.transform.position = transform.position;
 
-        //³ª¸¦ ÆÄ±«
+        //ë‚˜ë¥¼ íŒŒê´´
         Destroy(gameObject);
     }
 }
