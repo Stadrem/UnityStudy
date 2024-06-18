@@ -5,16 +5,16 @@ public class PlayerMove : MonoBehaviour
 {
     public float speed = 5f;
 
-    //Ä³¸¯ÅÍ ÄÁÆ®·Ñ·¯ ÄÄÆ÷³ÍÆ®
+    //ìºë¦­í„° ì»¨íŠ¸ë¡¤ëŸ¬ ì»´í¬ë„ŒíŠ¸
     CharacterController cc;
 
-    //Áß·Â
+    //ì¤‘ë ¥
     float gravity = -20;
 
-    //¼öÁ÷¼Ó·Â
+    //ìˆ˜ì§ì†ë ¥
     float yVelocity = 0;
 
-    //Á¡ÇÁÆÄ¿ö
+    //ì í”„íŒŒì›Œ
     float jumpPower = 5;
 
     //HP Slider
@@ -23,41 +23,41 @@ public class PlayerMove : MonoBehaviour
     //HP Text
     public Text hpText;
 
-    //ÇöÀç HP
+    //í˜„ì¬ HP
     float currentHP = 100;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        // Ä³¸¯ÅÍ ÄÁÆ®·Ñ·¯ ÄÄÆ÷³ÍÆ® ºÒ·¯¿À±â
+        // ìºë¦­í„° ì»¨íŠ¸ë¡¤ëŸ¬ ì»´í¬ë„ŒíŠ¸ ë¶ˆëŸ¬ì˜¤ê¸°
         cc = GetComponent<CharacterController>();
     }
 
     // Update is called once per frame
     void Update()
     {
-        //1. »ç¿ëÀÚÀÇ ÀÔ·ÂÀ» ¹ŞÀÚ (w,s,a,d)
-        float h = Input.GetAxis("Horizontal"); // a: -1, d: 1 ´©¸£Áö ¾ÊÀ¸¸é 0
-        float v = Input.GetAxis("Vertical"); // s: -1, w: 1 ´©¸£Áö ¾ÊÀ¸¸é 0
+        //1. ì‚¬ìš©ìì˜ ì…ë ¥ì„ ë°›ì (w,s,a,d)
+        float h = Input.GetAxis("Horizontal"); // a: -1, d: 1 ëˆ„ë¥´ì§€ ì•Šìœ¼ë©´ 0
+        float v = Input.GetAxis("Vertical"); // s: -1, w: 1 ëˆ„ë¥´ì§€ ì•Šìœ¼ë©´ 0
 
-        //2. ¹æÇâÀ» ¸¸µë
+        //2. ë°©í–¥ì„ ë§Œë“¬
         Vector3 dirH = transform.right * h;
         Vector3 dirV = transform.forward * v;
         Vector3 dir = dirH + dirV;
 
-        //¸¸¾à¿¡ ½ºÆäÀÌ½º¹Ù¸¦ ´©¸£¸é
+        //ë§Œì•½ì— ìŠ¤í˜ì´ìŠ¤ë°”ë¥¼ ëˆ„ë¥´ë©´
         if (Input.GetButtonDown("Jump"))
         {
-            //yVelocity¸¦ jumpPower ÇÑ´Ù
+            //yVelocityë¥¼ jumpPower í•œë‹¤
             yVelocity = jumpPower;
         }
-        //yVelocity °ªÀ» Á¡Á¡ ÁÙ¿©ÁØ´Ù. (gravity¿¡ ÀÇÇØ¼­)
+        //yVelocity ê°’ì„ ì ì  ì¤„ì—¬ì¤€ë‹¤. (gravityì— ì˜í•´ì„œ)
         yVelocity += gravity * Time.deltaTime;
 
-        //dirÀÇ y°ª¿¡ yVelocity¸¦ ¼¼ÆÃÇÑ´Ù
+        //dirì˜ yê°’ì— yVelocityë¥¼ ì„¸íŒ…í•œë‹¤
         dir.y = yVelocity;
 
-        //3. ±× ¹æÇâÀ¸·Î ÀÌµ¿
+        //3. ê·¸ ë°©í–¥ìœ¼ë¡œ ì´ë™
         //p = p0 + vt
         //transform.position = transform.position + dir * speed * Time.deltaTime;
 
@@ -66,13 +66,13 @@ public class PlayerMove : MonoBehaviour
 
     public void OnDamaged()
     {
-        //ÇöÀç HP¸¦ ÁÙÀÎ´Ù
+        //í˜„ì¬ HPë¥¼ ì¤„ì¸ë‹¤
         currentHP -= 10;
-        //HP UI¸¦ °»½ÅÇÑ´Ù
-        //1. text °»½Å
+        //HP UIë¥¼ ê°±ì‹ í•œë‹¤
+        //1. text ê°±ì‹ 
         hpText.text = "HP : " + currentHP;
 
-        //2. slider °»½Å
+        //2. slider ê°±ì‹ 
         float ratio = currentHP / 100;
         hpSlider.value = ratio;
     }
